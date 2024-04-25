@@ -1,8 +1,12 @@
 class BooksController < ApplicationController
+  before_action :is_matching_login_user, only: [:edit, :update]
+
   def new
   end
   
   def create
+    @user = current_user
+    @books = Book.all
      @book= Book.new(book_params)
      @book.user_id = current_user.id
     if @book.save
@@ -33,11 +37,12 @@ class BooksController < ApplicationController
   def update
     is_matching_login_user
     @book =  Book.find(params[:id])
+    @user = current_user
     if @book.update(book_params)
        flash[:notice] ="successfully"
        redirect_to book_path(@book)
     else
-       render :show
+       render :edit
     end
   end
   
@@ -50,10 +55,14 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body)
   end
+  
+   private
+  
   def is_matching_login_user
     book = Book.find(params[:id])
     unless book.user_id == current_user.id
-      redirect_to user_path(current_user)
+      redirect_to books_path
     end 
   end
+ 
 end

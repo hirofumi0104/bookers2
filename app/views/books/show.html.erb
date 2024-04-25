@@ -5,11 +5,12 @@
         <table class='table table-hover table-inverse'>
           <tbody>
             <tr>
-            <th><%= image_tag @user.get_profile_image(100,100) %>
+            <th><%= image_tag @user.get_profile_image(100,100) %></th>
             <br><%= link_to @user.name,user_path(@user.id) %></th> 
               <td><span><%= link_to @book.title,book_path(@book.id) %></span></td>
               <td><span><%= @book.body %></span></td>
-              <td><%= link_to 'Edit', edit_book_path(@book.id) %></td>
+              <td><% if @book.user == current_user %>
+              <%= link_to 'Edit', edit_book_path(@book.id) %> <% end %></td>
               <td><% if @book.user == current_user %>
               <%= link_to "Destroy", destroy_book_path(@book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
               <% end %></td>

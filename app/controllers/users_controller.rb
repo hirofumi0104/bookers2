@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
      @user = current_user
+     @book = Book.new
      @books = Book.all
   end
   
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
     flash[:notice] ="successfully"
     redirect_to user_path(@user)
    else
-      render :show
+      render :edit
    end
   end
 
