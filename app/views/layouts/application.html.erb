@@ -12,6 +12,7 @@
 
   <body>
     <%= render 'layouts/header' %>
+    <%= render partial: 'layouts/search' if logged_in? %>
     <%= yield %>
     <%= render 'layouts/footer'  %>
   </body>
