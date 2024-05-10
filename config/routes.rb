@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'groups/new'
+  get 'groups/index'
+  get 'groups/show'
+  get 'groups/edit'
   get 'relationships/followings'
   get 'relationships/followers'
   devise_for :users
@@ -6,6 +10,7 @@ Rails.application.routes.draw do
   get "search" => "searches#search"
   get "home/about", to: "homes#about"
   delete 'books/:id' => 'books#destroy', as: 'destroy_book'
+  resources :groups, only: [:new, :index, :show, :create, :edit, :update]
   resources :books, only: [:new,  :create, :index, :show, :edit, :update] do
    resource :favorite, only: [:create, :destroy]
    resources :book_comments, only: [:create, :destroy]

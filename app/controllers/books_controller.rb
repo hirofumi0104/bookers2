@@ -35,6 +35,23 @@ class BooksController < ApplicationController
      @book_new = Book.new
      @book_comment = BookComment.new
      @book_detail = Book.find(params[:id])
+     @currentUserEntry = Entry.where(user_id: current_user.id)
+     @userEntry = Entry.where(user_id: @user.id)
+      unless @user.id == current_user.id
+        @currentUserEntry.each do |cu| 
+          @userEntry.each do |u| 
+            if cu.room_id == u.room_id 
+              @isRoom = true
+              @roomId = cu.room_id
+            end
+          end
+        end
+        if @isRoom
+        else
+          @room = Room.new
+          @entry = Entry.new
+        end
+      end
     unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
       current_user.view_counts.create(book_id: @book_detail.id)
     end
