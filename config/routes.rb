@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   get "search" => "searches#search"
   get "home/about", to: "homes#about"
   delete 'books/:id' => 'books#destroy', as: 'destroy_book'
-  resources :groups, only: [:new, :index, :show, :create, :edit, :update]
+  
+  resources :groups, only: [:new, :index, :show, :create, :edit, :update] do
+   resource :group_users, only: [:create, :destroy]
+  end
+  
   resources :books, only: [:new,  :create, :index, :show, :edit, :update] do
    resource :favorite, only: [:create, :destroy]
    resources :book_comments, only: [:create, :destroy]
   end
+  
   resources :users, only: [:index, :show, :edit, :update, :create] do
      get "search" => "users#search"
      member do
