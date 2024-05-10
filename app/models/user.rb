@@ -12,6 +12,9 @@ class User < ApplicationRecord
    has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
    has_many :following_users, through: :followers, source: :followed
    has_many :follower_users, through: :followeds, source: :follower
+   has_many :entries, dependent: :destroy
+   has_many :messages, dependent: :destroy
+   has_many :rooms, through: :entries
    validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
    validates :introduction,length: { maximum: 50 } 
   

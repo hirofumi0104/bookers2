@@ -1,0 +1,34 @@
+<div class="container">
+  
+  <% @entries.each do |e| %>
+    <% unless e.user == current_user %>
+    <h2><%= e.user.name %>さんとのチャットルーム</h2>
+    <% end %>
+  <% end %>
+
+  <div class="chat">
+    <div class="chats">
+      <% if @messages.present? %>
+        <% @messages.each do |m| %>
+          <% if m.user_id == current_user.id %>
+              <div class="chat-fukidashi" style="text-align: right;">
+                <strong><%= m.content %></strong>
+              </div>
+          <% else %>
+              <div class="chat-fukidashi" style="text-align: left;">
+                <strong><%= m.content %></strong>
+              </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    
+<div class="posts">
+    <%= form_with model: @message, local: false do |f| %>
+    <%= f.text_field :content, placeholder: "", size: 70, class: "form-text-field" %>
+    <%= f.hidden_field :room_id, value: @room.id %>
+  <% end %>
+</div>
+
+  </div>
+</div>
